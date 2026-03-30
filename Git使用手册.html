@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity项目 Git 使用手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin: 20px 0 10px;
+        }
+
+        .step-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95em;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.6;
+        }
+
+        .code-block .comment {
+            color: #888;
+        }
+
+        .code-block .command {
+            color: #50fa7b;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .warning::before {
+            content: "⚠️";
+            margin-right: 10px;
+        }
+
+        .tip {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .tip::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .success::before {
+            content: "✅";
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        details {
+            background: #f8f9ff;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #667eea;
+            user-select: none;
+        }
+
+        summary:hover {
+            background: #f0f2ff;
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        details .content {
+            padding: 20px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            background: #f8f9ff;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        .quick-ref {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quick-ref-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .quick-ref-card code {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            display: block;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            margin: 20px 0;
+        }
+
+        .highlight-box strong {
+            color: #d63031;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Unity项目 Git 使用手册</h1>
+            <p>简单易懂的版本控制指南 | 团队协作必备</p>
+        </div>
+
+        <div class="content">
+            <!-- 快速开始 -->
+            <div class="section">
+                <h2>⚡ 快速开始</h2>
+
+                <div class="highlight-box">
+                    <strong>记住这4个命令就够了！</strong>
+                </div>
+
+                <div class="quick-ref">
+                    <div class="quick-ref-card">
+                        <div>📥 更新代码</div>
+                        <code>git pull</code>
+                    </div>
+                    <div class="quick-ref-card">
+                        <div>➕ 添加修改</div>
+                        <code>git add .</code>
+                    </div>
+                    <div class="quick-ref-card">
+                        <div>💾 提交说明</div>
+                        <code>git commit -m "..."</code>
+                    </div>
+                    <div class="quick-ref-card">
+                        <div>📤 上传代码</div>
+                        <code>git push</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第一次使用 -->
+            <div class="section">
+                <h2>🎯 第一次使用（只需做一次）</h2>
+
+                <h3>步骤1：安装软件</h3>
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    下载安装 <a href="https://git-scm.com/download/win" target="_blank" style="color: #667eea;">Git for Windows</a>
+                </div>
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    下载安装 <a href="https://unity.com/releases/editor/archive" target="_blank" style="color: #667eea;">Unity 2021.3</a>
+                </div>
+
+                <h3>步骤2：克隆项目</h3>
+                <div class="code-block">
+                    <span class="comment"># 打开命令行（按Win+R，输入cmd，回车）</span>
+                    <span class="command">git clone https://github.com/870171594/unity-solar-system.git</span>
+                </div>
+
+                <div class="success">
+                    项目会下载到当前目录，完成后用Unity打开 <code>unity-solar-system</code> 文件夹即可
+                </div>
+
+                <h3>步骤3：配置个人信息（只需一次）</h3>
+                <div class="code-block">
+                    <span class="comment"># 设置你的名字和邮箱</span>
+                    <span class="command">git config user.name "你的名字"</span>
+                    <span class="command">git config user.email "你的邮箱"</span>
+                </div>
+            </div>
+
+            <!-- 日常使用 -->
+            <div class="section">
+                <h2>🔄 日常使用流程</h2>
+
+                <div class="highlight-box">
+                    每次工作前先 <strong>git pull</strong>，工作完成后 <strong>git push</strong>
+                </div>
+
+                <h3>📥 开始工作前</h3>
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    打开命令行，进入项目文件夹
+                </div>
+                <div class="code-block">
+                    <span class="command">cd unity-solar-system</span>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    更新到最新代码
+                </div>
+                <div class="code-block">
+                    <span class="command">git pull</span>
+                </div>
+
+                <div class="tip">
+                    这一步很重要！可以避免后面的冲突问题
+                </div>
+
+                <h3>📤 完成工作后</h3>
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    添加所有修改的文件
+                </div>
+                <div class="code-block">
+                    <span class="command">git add .</span>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    提交修改（写清楚你做了什么）
+                </div>
+                <div class="code-block">
+                    <span class="command">git commit -m "修复了相机控制bug"</span>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">3</span>
+                    上传到GitHub
+                </div>
+                <div class="code-block">
+                    <span class="command">git push</span>
+                </div>
+
+                <div class="success">
+                    完成！其他成员现在可以看到你的修改了
+                </div>
+            </div>
+
+            <!-- 常用命令 -->
+            <div class="section">
+                <h2>📚 常用命令速查</h2>
+
+                <table>
+                    <tr>
+                        <th>操作</th>
+                        <th>命令</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>查看状态</td>
+                        <td><code>git status</code></td>
+                        <td>查看哪些文件被修改了</td>
+                    </tr>
+                    <tr>
+                        <td>查看历史</td>
+                        <td><code>git log</code></td>
+                        <td>查看提交记录</td>
+                    </tr>
+                    <tr>
+                        <td>放弃修改</td>
+                        <td><code>git checkout -- 文件名</code></td>
+                        <td>撤销对某个文件的修改</td>
+                    </tr>
+                    <tr>
+                        <td>查看差异</td>
+                        <td><code>git diff</code></td>
+                        <td>查看具体改了什么</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 常见问题 -->
+            <div class="section">
+                <h2>❓ 常见问题解答</h2>
+
+                <details>
+                    <summary>🔴 出现 "Please tell me who you are" 怎么办？</summary>
+                    <div class="content">
+                        <p>这是你第一次使用Git，需要设置身份信息：</p>
+                        <div class="code-block">
+                            <span class="command">git config user.name "你的名字"</span>
+                            <span class="command">git config user.email "你的邮箱"</span>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔴 推送时要求输入账号密码？</summary>
+                    <div class="content">
+                        <p>输入你的GitHub账号和密码即可。</p>
+                        <p class="tip">如果经常推送，建议设置SSH密钥，这样就不用每次都输入密码了</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔴 出现冲突怎么办？</summary>
+                    <div class="content">
+                        <p>当两个人同时修改同一个文件时会出现冲突：</p>
+                        <div class="code-block">
+                            <span class="command">git pull</span>
+                        </div>
+                        <p>Git会标记冲突的地方，打开文件会看到：</p>
+                        <div class="code-block">
+                            &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>
+                            你的修改<br>
+                            =======<br>
+                            别人的修改<br>
+                            &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main
+                        </div>
+                        <p class="warning">不要慌！找负责人商量保留哪部分，然后删除标记符号</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔴 提交后发现写错了怎么办？</summary>
+                    <div class="content">
+                        <p>如果还没有push，可以修改最后一次提交：</p>
+                        <div class="code-block">
+                            <span class="command">git commit --amend -m "新的提交信息"</span>
+                        </div>
+                        <p class="warning">如果已经push了，就不要用这个命令！直接再提交一个修改</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>🔴 Unity打开后Library文件夹很大，要不要提交？</summary>
+                    <div class="content">
+                        <p class="success">不需要！Library文件夹已经在 .gitignore 中被忽略了</p>
+                        <p>Unity会自动重新生成这个文件夹，每个人打开项目时都会自动创建</p>
+                    </div>
+                </details>
+            </div>
+
+            <!-- 注意事项 -->
+            <div class="section">
+                <h2>⚠️ 重要注意事项</h2>
+
+                <div class="warning">
+                    <strong>不要随意强制推送！</strong> <code>git push -f</code> 会覆盖别人的代码
+                </div>
+
+                <div class="warning">
+                    <strong>提交前先更新！</strong> 每次开始工作前先执行 <code>git pull</code>
+                </div>
+
+                <div class="warning">
+                    <strong>写清楚的提交信息！</strong> 不要写 "update"、"fix" 这种模糊的词
+                </div>
+
+                <div class="tip">
+                    <strong>好的提交信息示例：</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>✅ "添加了FPS设置UI界面"</li>
+                        <li>✅ "修复相机旋转时的卡顿问题"</li>
+                        <li>✅ "更新月球材质贴图"</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <strong>场景文件容易冲突！</strong> .unity文件是二进制格式，很难合并
+                    <br>建议：场景和Prefab尽量由一个人负责编辑
+                </div>
+            </div>
+
+            <!-- 工作流程建议 -->
+            <div class="section">
+                <h2>👥 团队协作建议</h2>
+
+                <h3>推荐的工作流程：</h3>
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    开始工作前：先在群里说一声你要修改什么
+                </div>
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    执行 <code>git pull</code> 更新代码
+                </div>
+                <div class="step-box">
+                    <span class="step-number">3</span>
+                    专心完成你的工作
+                </div>
+                <div class="step-box">
+                    <span class="step-number">4</span>
+                    完成后：先 <code>git pull</code> 再 <code>git push</code>
+                </div>
+                <div class="step-box">
+                    <span class="step-number">5</span>
+                    在群里告诉大家你完成了什么
+                </div>
+
+                <h3>遇到问题时：</h3>
+                <div class="tip">
+                    <strong>不要自己瞎搞！</strong> 先问负责人或资深成员
+                </div>
+                <div class="tip">
+                    <strong>不确定的命令不要执行！</strong> 尤其是带 --force 的命令
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💜 有问题随时联系项目负责人</p>
+            <p style="margin-top: 10px;">
+                项目地址：<a href="https://github.com/870171594/unity-solar-system" target="_blank" style="color: #667eea;">github.com/870171594/unity-solar-system</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
