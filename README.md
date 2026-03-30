@@ -6,7 +6,7 @@
 
 - **Unity 版本**: 2021.3.45f2c1
 - **开发环境**: Windows / Unity Editor
-- **仓库地址**: https://github.com/870171594/unity-solar-system
+- **仓库地址**: https://gitee.com/zhangenze39/unity-solar-system
 
 ---
 
@@ -20,7 +20,7 @@
 ### 克隆项目
 
 ```bash
-git clone https://github.com/870171594/unity-solar-system.git
+git clone https://gitee.com/zhangenze39/unity-solar-system.git
 ```
 
 克隆完成后，用 Unity 打开 `unity-solar-system` 文件夹即可。
@@ -56,7 +56,7 @@ git clone https://github.com/870171594/unity-solar-system.git
    ```
 3. **克隆项目**:
    ```bash
-   git clone https://github.com/870171594/unity-solar-system.git
+   git clone https://gitee.com/zhangenze39/unity-solar-system.git
    ```
 
 ### 日常工作流程
@@ -155,7 +155,7 @@ git config user.email "你的邮箱"
 ```
 
 **Q: push 时要求输入密码？**
-输入你的 GitHub 账号密码即可。建议配置 SSH 密钥避免每次输入。
+输入你的 Gitee 账号密码即可。建议配置 SSH 密钥避免每次输入。
 
 **Q: Unity 打开后 Library 很大，要提交吗？**
 不需要！Library 已在 .gitignore 中忽略，每个人本地都会自动生成。
